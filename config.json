@@ -1,0 +1,11 @@
+{
+  "base_tunnel_domain": "jiamian0128.dpdns.org",
+  "base_pages_domain": "jiamian0128.pages.dev",
+  "services": [
+    { "prefix": "gb", "name": "GB Service" },
+    { "prefix": "npm", "name": "NPM Service" },
+    { "prefix": "ol", "name": "OL Service" },
+    { "prefix": "lc", "name": "LC Service" },
+    { "prefix": "xui", "name": "XUI Service" }
+  ]
+}
