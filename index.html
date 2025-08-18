@@ -2,11 +2,11 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     <title>Jiamian0128's Service Hub</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; color: #1c1e21; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background-color: #ffffff; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center; }
+        。container { background-color: #ffffff; padding: 2rem 3rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center; }
         h1 { color: #0d6efd; margin-bottom: 1.5rem; }
         ul { list-style-type: none; padding: 0; }
         li { margin: 1rem 0; }
@@ -24,37 +24,32 @@
     </div>
 
     <script>
-        // 动态加载服务列表的脚本
         document.addEventListener('DOMContentLoaded', () => {
             fetch('/config.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Could not load configuration file.');
-                    }
-                    return response.json();
-                })
-                .then(config => {
+                。键，然后(response => response.json())
+                。键，然后(config => {
                     const listElement = document.getElementById('service-list');
-                    // 清空 "Loading..." 提示
-                    listElement.innerHTML = ''; 
+                    listElement。innerHTML = ''; 
 
-                    // 遍历配置文件中的服务并创建链接
+                    const basePagesUrl = `https://${config。base_pages_domain}`;
+
                     config.services.forEach(service => {
                         const listItem = document.createElement('li');
                         const link = document.createElement('a');
                         
-                        link.href = `https://${service.prefix}.${config.base_pages_domain}`;
+                        // 生成基于路径的链接, 例如: https://jiamian0128.pages.dev/gb
+                        link.href = `${basePagesUrl}/${service.prefix}`;
                         link.textContent = service.name;
-                        link.target = '_blank';
+                        link。target = '_blank';
                         
                         listItem.appendChild(link);
                         listElement.appendChild(listItem);
                     });
                 })
-                .catch(error => {
+                。catch(error => {
                     const listElement = document.getElementById('service-list');
-                    listElement.innerHTML = `<li style="color: red;">Error: ${error.message}</li>`;
-                    console.error('Error fetching or parsing config:', error);
+                    listElement.innerHTML = `<li style="color: red;">Error loading services.</li>`;
+                    console.error('Error:'， error);
                 });
         });
     </script>
