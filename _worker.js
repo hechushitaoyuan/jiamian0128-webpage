@@ -1,43 +1,40 @@
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const hostname = url.hostname;
+    const pathSegments = url.pathname。split('/')。filter(Boolean); // 例如: /gb/some/path -> ['gb', 'some', 'path']
 
     try {
       // 动态获取配置文件
-      const configFileUrl = new URL('/config.json', url.origin);
-      const configFile = await env.ASSETS.fetch(new Request(configFileUrl));
-      if (!configFile.ok) {
-        return new Response('Configuration file not found.', { status: 500 });
-      }
+      const configFile = await env.ASSETS.fetch(new Request(new URL('/config.json'， url.origin)));
+      if (!configFile。ok) throw new 错误('Configuration file not found.');
       const config = await configFile.json();
 
-      // 从主机名中提取子域名前缀
-      const subdomain = hostname.split('.')[0];
-      
-      // 在配置的服务列表中查找匹配项
-      const service = config.services.find(s => s.prefix === subdomain);
+      // 检查是否存在第一个路径段 (例如 "gb")
+      if (pathSegments。length > 0) {
+        const prefix = pathSegments[0];
+        const service = config.services.find(s => s.prefix === prefix);
 
-      if (service) {
-        // 如果找到匹配的服务，则进行代理
-        const targetHost = `${service.prefix}.${config.base_tunnel_domain}`;
-        const newRequest = new Request(request);
-        newRequest.headers.set('Host', targetHost);
-        
-        // 交给 Tunnel 处理请求
-        return fetch(newRequest);
+        if (service) {
+          // 如果找到匹配的服务，则进行代理
+          const targetHost = `${service.prefix}.${config.base_tunnel_domain}`;
+          
+          // 构造新的目标URL，保留原始路径和查询参数
+          // 例如 /gb/some/path -> https://gb.jiamian0128.dpdns.org/some/path
+          const newPath = '/' + pathSegments.slice(1).join('/') + url.search;
+          const targetUrl = `https://${targetHost}${newPath}`;
 
-      } else if (hostname === config.base_pages_domain) {
-        // 如果访问的是主域名，则提供静态网站内容
-        return env.ASSETS.fetch(request);
+          const newRequest = new Request(targetUrl, request);
+          newRequest.headers.set('Host', targetHost);
+          
+          return fetch(newRequest);
+        }
       }
 
-      // 如果是其他未定义的子域名，返回404
-      return new Response(`Subdomain "${subdomain}" not found in configuration.`, { status: 404 });
+      // 如果没有匹配的路径前缀, 或者直接访问根路径 "/", 则提供静态网站内容 (index.html)
+      return env.ASSETS.fetch(request);
 
     } catch (e) {
-      // 如果配置文件解析失败或有其他错误，返回服务器错误
-      return new Response(`Error processing request: ${e.message}`, { status: 500 });
+      return new Response(`Error: ${e.message}`, { status: 500 });
     }
   },
 };
