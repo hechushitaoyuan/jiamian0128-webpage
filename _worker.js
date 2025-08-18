@@ -1,7 +1,7 @@
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    const pathSegments = url.pathname.split('/').filter(Boolean); // 例如: /gb/some/path -> ['gb', 'some', 'path']
+    const pathSegments = url.pathname.split('/').filter(Boolean);
 
     try {
       // 动态获取配置文件
@@ -9,28 +9,64 @@ export default {
       if (!configFile.ok) throw new Error('Configuration file not found.');
       const config = await configFile.json();
 
-      // 检查是否存在第一个路径段 (例如 "gb")
       if (pathSegments.length > 0) {
         const prefix = pathSegments[0];
         const service = config.services.find(s => s.prefix === prefix);
 
         if (service) {
-          // 如果找到匹配的服务，则进行代理
+          // --- 1. 构造发往后端的请求 ---
           const targetHost = `${service.prefix}.${config.base_tunnel_domain}`;
-          
-          // 构造新的目标URL，保留原始路径和查询参数
-          // 例如 /gb/some/path -> https://gb.jiamian0128.dpdns.org/some/path
           const newPath = '/' + pathSegments.slice(1).join('/') + url.search;
-          const targetUrl = `https://${targetHost}${newPath}`;
-
+          const targetUrl = new URL(newPath, `https://${targetHost}`);
+          
           const newRequest = new Request(targetUrl, request);
           newRequest.headers.set('Host', targetHost);
           
-          return fetch(newRequest);
+          const response = await fetch(newRequest);
+
+          // --- 2. 处理后端的响应 ---
+          // 2.1 处理重定向 (Location Header)
+          const location = response.headers.get('Location');
+          if (location) {
+            const newLocation = `/${prefix}${new URL(location).pathname}`;
+            const newHeaders = new Headers(response.headers);
+            newHeaders.set('Location', newLocation);
+            return new Response(response.body, {
+              status: response.status,
+              statusText: response.statusText,
+              headers: newHeaders,
+            });
+          }
+
+          // 2.2 如果是HTML内容，则重写所有链接
+          const contentType = response.headers.get('Content-Type');
+          if (contentType && contentType.includes('text/html')) {
+            // 辅助函数，用于重写元素的属性
+            const rewriteElementAttribute = (attributeName) => ({
+              element(element) {
+                const attr = element.getAttribute(attributeName);
+                if (attr && attr.startsWith('/')) {
+                  element.setAttribute(attributeName, `/${prefix}${attr}`);
+                }
+              },
+            });
+
+            const rewriter = new HTMLRewriter()
+              .on('a', rewriteElementAttribute('href'))
+              .on('link', rewriteElementAttribute('href'))
+              .on('script', rewriteElementAttribute('src'))
+              .on('img', rewriteElementAttribute('src'))
+              .on('form', rewriteElementAttribute('action'));
+
+            return rewriter.transform(response);
+          }
+          
+          // 2.3 其他类型的内容 (图片, CSS, JS文件等) 直接返回
+          return response;
         }
       }
 
-      // 如果没有匹配的路径前缀, 或者直接访问根路径 "/", 则提供静态网站内容 (index.html)
+      // 如果没有匹配的路径，则提供静态主页
       return env.ASSETS.fetch(request);
 
     } catch (e) {
