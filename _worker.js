@@ -6,7 +6,7 @@ export default {
     try {
       // 动态获取配置文件
       const configFile = await env.ASSETS.fetch(new Request(new URL('/config.json', url.origin)));
-      if (!configFile.ok) throw new 错误('Configuration file not found.');
+      if (!configFile.ok) throw new Error('Configuration file not found.');
       const config = await configFile.json();
 
       // 检查是否存在第一个路径段 (例如 "gb")
