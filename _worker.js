@@ -28,7 +28,18 @@ export default {
           // 2.1 处理重定向 (Location Header)
           const location = response.headers.get('Location');
           if (location) {
-            const newLocation = `/${prefix}${new URL(location).pathname}`;
+            const locationUrl = new URL(location, targetUrl); // Handles both relative and absolute URLs
+            
+            let newLocation;
+            // Check if the redirect is to the same host as the backend service
+            if (locationUrl.host === targetUrl.host) {
+              // Rewrite the path to include the prefix
+              newLocation = `/${prefix}${locationUrl.pathname}${locationUrl.search}${locationUrl.hash}`;
+            } else {
+              // It's a redirect to an external domain, so don't modify it
+              newLocation = locationUrl.toString();
+            }
+
             const newHeaders = new Headers(response.headers);
             newHeaders.set('Location', newLocation);
             return new Response(response.body, {
