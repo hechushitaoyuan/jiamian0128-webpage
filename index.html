@@ -5,166 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jiamian0128's Personal Webpage</title>
     <style>
-        /* 引入思源宋体作为基础字体，更具古典韵味 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
 
         body {
             font-family: 'Noto Serif SC', serif;
-            /* 一张精心挑选的、有留白和意境的水墨竹子背景 */
-            background-image: url('https://images.unsplash.com/photo-1593955938133-315143a53187?q=80&w=2670&auto=format&fit=crop');
+            /* 严格按照您提供的背景图片 */
+            background-image: url('https://bpic.588ku.com/video_listen/588ku_pic/23/03/24/641dbd1698549.jpeg');
             background-color: #f5f5f5;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             margin: 0;
-            padding: 2.5rem;
+            padding: 3rem;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
         }
 
-        .main-container {
+        /* 移除了主容器的背景和边框，让所有元素直接浮于背景之上 */
+        .page-wrapper {
             width: 100%;
-            max-width: 1200px;
-            /* 关键：使用带有透明度和模糊效果的背景板，营造宣纸般的朦胧感，融入背景而非突兀 */
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 10px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 1100px;
+            text-align: center;
         }
 
         header {
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1.8rem 1.5rem;
+            padding: 1.5rem;
             position: relative;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 2.5rem;
+            /* 用一个非常淡的底部线条来营造空间感，而非色块 */
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
 
         .logo {
             position: absolute;
-            left: 2rem;
+            left: 0;
             top: 50%;
             transform: translateY(-50%);
-            height: 50px;
-            width: 50px;
-            opacity: 0.8;
+            height: 55px; /* 尺寸微调以适应布局 */
+            width: 55px;
+            opacity: 0.9;
         }
 
         h1 {
-            color: #2c2c2c;
+            color: #3d3d3d;
             font-weight: 700;
-            font-size: 2.2em;
+            font-size: 2.5em;
             margin: 0;
-            text-shadow: 1px 1px 3px rgba(255,255,255,0.5);
+            /* 关键：使用文字阴影保证在复杂背景下的可读性 */
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.6), 0px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .content-wrapper {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 2rem;
-            padding: 2.5rem;
+            gap: 3rem;
         }
-
-        .tunnel-main {
-            grid-column: 1 / -1;
-        }
-
+        
         .tunnels-bottom {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 3rem;
         }
         
         .tunnel-group {
-            /* 分组背景更加透明，与主容器形成层次感 */
-            background: rgba(255, 255, 255, 0.5);
-            padding: 1.5rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            text-align: center;
+             /* 组不再有背景板，只有布局结构 */
+            padding: 1rem;
         }
 
         .tunnel-group h2 {
-            margin: 0 auto 1.8rem auto;
-            color: #333;
-            font-size: 1.6em;
+            margin: 0 auto 2.2rem auto;
+            color: #404040;
+            font-size: 1.8em;
             font-weight: 700;
-            /* 卷轴式标题 */
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
             display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-left: 5px solid #a89a8e; /* 仿古木色 */
-            border-right: 5px solid #a89a8e;
+            padding: 0 1rem;
         }
+        /* 用伪元素在标题两侧画出装饰性线条，更具古典感 */
+        .tunnel-group h2::before,
+        .tunnel-group h2::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 1px;
+            background-color: rgba(64, 64, 64, 0.5);
+        }
+        .tunnel-group h2::before { left: -60px; }
+        .tunnel-group h2::after { right: -60px; }
         
         .services-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 1.2rem;
+            gap: 1.5rem;
         }
 
         .service-button {
             display: block;
-            padding: 0.8rem 1.5rem;
-            /* 颜色过渡：从深墨色到浅灰色，体现水墨的层次感 */
-            background: linear-gradient(145deg, #4a4a4a, #333333);
-            color: #f0f0f0;
+            padding: 0.9rem 1.8rem;
+            /* 按钮使用半透明背景，融入整体画面 */
+            background: rgba(45, 45, 45, 0.65);
+            backdrop-filter: blur(5px);
+            color: #f5f5f5;
             text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.1em;
-            font-weight: 400;
+            border-radius: 6px;
+            font-size: 1.2em;
             text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .service-button:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-            background: linear-gradient(145deg, #2a2a2a, #111111);
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(10, 10, 10, 0.8);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.1);
             color: #fff;
         }
 
-        /* 媒体查询，优化移动端显示 */
         @media (max-width: 768px) {
-            body { padding: 1rem; }
+            body { padding: 1.5rem; }
             .tunnels-bottom { grid-template-columns: 1fr; }
-            h1 { font-size: 1.6em; }
-            .logo { height: 40px; width: 40px; left: 1rem; }
-            .content-wrapper, .tunnel-group { padding: 1.5rem; }
+            h1 { font-size: 1.8em; }
+            .logo { display: none; } /* 在手机上隐藏logo，为标题腾出空间 */
         }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
+    <div class="page-wrapper">
         <header>
-            <img src="/logo.png" alt="Logo" class="logo">
+            <!-- 用github头像做logo -->
+            <img src="https://avatars.githubusercontent.com/u/109302248?s=400&u=12243b1331dcedf73ae97bd00b5f233920218c7b&v=4" alt="Logo" class="logo">
             <h1>Jiamian0128's Personal Webpage</h1>
         </header>
 
         <main class="content-wrapper" id="content-wrapper">
-             <p style="text-align:center;">正在加载服务节点...</p>
+             <p style="text-align:center; color: #333; text-shadow: 1px 1px 2px #fff;">正在加载服务节点...</p>
         </main>
     </div>
 
-    <!-- JavaScript 逻辑部分保持不变 -->
+    <!-- 
+      JavaScript 逻辑部分:
+      再次确认：这里的 fetch('./config.json') 正是您要求的，
+      从您GitHub仓库中的 config.json 文件读取数据来动态生成页面。
+      它绝对不会去读取Cloudflare API或暴露您未在json中指定的任何子域名。
+    -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./config.json')
-                // ... (此处省略与上一版完全相同的 JavaScript 代码)
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
+                    if (!response.ok) { throw new Error('Network response was not ok'); }
                     return response.json();
                 })
                 .then(config => {
@@ -173,13 +171,10 @@
 
                     const armTunnelData = config.tunnels.find(t => t.name.toLowerCase().includes('arm'));
                     const otherTunnels = config.tunnels.filter(t => !t.name.toLowerCase().includes('arm'));
-                    
-                    // 确保A通道在左，B通道在右
                     const sortedOthers = otherTunnels.sort((a,b) => a.name.localeCompare(b.name));
 
                     if(armTunnelData){
                        const armGroup = createTunnelGroup(armTunnelData, config.baseDomain);
-                       armGroup.classList.add('tunnel-main');
                        wrapper.appendChild(armGroup);
                     }
 
@@ -192,7 +187,7 @@
                 })
                 .catch(error => {
                     const wrapper = document.getElementById('content-wrapper');
-                    wrapper.innerHTML = `<p style="text-align:center; color: #b22222;">错误: 无法加载配置文件 config.json</p>`;
+                    wrapper.innerHTML = `<p style="text-align:center; color: #b22222; background: rgba(255,255,255,0.7); padding: 1rem; border-radius: 5px;">错误: 无法加载配置文件 config.json</p>`;
                     console.error('Error fetching config:', error);
                 });
         });
