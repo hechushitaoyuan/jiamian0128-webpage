@@ -1,11 +1,29 @@
 {
-  "base_tunnel_domain": "jiamian0128.dpdns.org",
-  "base_pages_domain": "jiamian0128.pages.dev",
-  "services": [
-    { "prefix": "gb", "name": "GB Service" },
-    { "prefix": "npm", "name": "NPM Service" },
-    { "prefix": "ol", "name": "OL Service" },
-    { "prefix": "lc", "name": "LC Service" },
-    { "prefix": "xui", "name": "XUI Service" }
+  "baseDomain": "jiamian.ip-ddns.com",
+  "tunnels": [
+    {
+      "name": "Oracle-Arm-tunnel",
+      "services": [
+        { "subdomain": "gb", "description": "GB" },
+        { "subdomain": "lc", "description": "LC" },
+        { "subdomain": "ol", "description": "OL" },
+        { "subdomain": "1p0", "description": "1P0" },
+        { "subdomain": "xui", "description": "XUI" }
+      ]
+    },
+    {
+      "name": "Oracle-A-tunnel",
+      "services": [
+        { "subdomain": "xa", "description": "XA" },
+        { "subdomain": "1pa", "description": "1PA" }
+      ]
+    },
+    {
+      "name": "Oracle-B-tunnel",
+      "services": [
+        { "subdomain": "xb", "description": "XB" },
+        { "subdomain": "1pb", "description": "1PB" }
+      ]
+    }
   ]
 }
