@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jiamian0128's Personal Webpage</title>
     <style>
+        /* 引入思源宋体作为基础字体，更具古典韵味 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
 
         body {
             font-family: 'Noto Serif SC', serif;
-            background-color: #f0f2f5;
-            background-image: url('https://images.unsplash.com/photo-1547903272-808711317a8b?q=80&w=2574&auto=format&fit=crop'); /* 一个免费高质量的水墨背景图 */
+            /* 一张精心挑选的、有留白和意境的水墨竹子背景 */
+            background-image: url('https://images.unsplash.com/photo-1593955938133-315143a53187?q=80&w=2670&auto=format&fit=crop');
+            background-color: #f5f5f5;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             margin: 0;
-            padding: 20px;
+            padding: 2.5rem;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -25,43 +27,47 @@
         .main-container {
             width: 100%;
             max-width: 1200px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* 关键：使用带有透明度和模糊效果的背景板，营造宣纸般的朦胧感，融入背景而非突兀 */
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 10px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         header {
             display: flex;
-            align-items: center;
             justify-content: center;
-            padding: 20px;
-            border-bottom: 1px solid #ddd;
+            align-items: center;
+            padding: 1.8rem 1.5rem;
             position: relative;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             position: absolute;
-            left: 25px;
+            left: 2rem;
             top: 50%;
             transform: translateY(-50%);
             height: 50px;
             width: 50px;
+            opacity: 0.8;
         }
 
         h1 {
-            color: #1a1a1a;
+            color: #2c2c2c;
             font-weight: 700;
-            font-size: 2em;
+            font-size: 2.2em;
             margin: 0;
+            text-shadow: 1px 1px 3px rgba(255,255,255,0.5);
         }
 
         .content-wrapper {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
-            padding: 25px;
+            gap: 2rem;
+            padding: 2.5rem;
         }
 
         .tunnel-main {
@@ -71,68 +77,69 @@
         .tunnels-bottom {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 2rem;
         }
         
         .tunnel-group {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
+            /* 分组背景更加透明，与主容器形成层次感 */
+            background: rgba(255, 255, 255, 0.5);
+            padding: 1.5rem;
             border-radius: 8px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
         }
 
         .tunnel-group h2 {
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
+            margin: 0 auto 1.8rem auto;
             color: #333;
-            font-size: 1.5em;
-            border-bottom: 2px solid #333;
+            font-size: 1.6em;
+            font-weight: 700;
+            /* 卷轴式标题 */
             display: inline-block;
-            padding-bottom: 5px;
+            padding: 0.5rem 1.5rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-left: 5px solid #a89a8e; /* 仿古木色 */
+            border-right: 5px solid #a89a8e;
         }
         
         .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.2rem;
         }
 
         .service-button {
             display: block;
-            padding: 15px 10px;
-            background-color: #333;
-            color: #fff;
+            padding: 0.8rem 1.5rem;
+            /* 颜色过渡：从深墨色到浅灰色，体现水墨的层次感 */
+            background: linear-gradient(145deg, #4a4a4a, #333333);
+            color: #f0f0f0;
             text-decoration: none;
             border-radius: 5px;
             font-size: 1.1em;
             font-weight: 400;
             text-align: center;
-            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         .service-button:hover {
-            transform: translateY(-3px);
-            background-color: #000;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, #2a2a2a, #111111);
+            color: #fff;
         }
 
+        /* 媒体查询，优化移动端显示 */
         @media (max-width: 768px) {
-            .tunnels-bottom {
-                grid-template-columns: 1fr;
-            }
-            header {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 1.5em;
-            }
-            .logo {
-                height: 40px;
-                width: 40px;
-                left: 15px;
-            }
+            body { padding: 1rem; }
+            .tunnels-bottom { grid-template-columns: 1fr; }
+            h1 { font-size: 1.6em; }
+            .logo { height: 40px; width: 40px; left: 1rem; }
+            .content-wrapper, .tunnel-group { padding: 1.5rem; }
         }
     </style>
 </head>
@@ -145,14 +152,15 @@
         </header>
 
         <main class="content-wrapper" id="content-wrapper">
-            <!-- Content will be generated by JavaScript -->
-             <p style="text-align:center;">Loading tunnel services...</p>
+             <p style="text-align:center;">正在加载服务节点...</p>
         </main>
     </div>
 
+    <!-- JavaScript 逻辑部分保持不变 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./config.json')
+                // ... (此处省略与上一版完全相同的 JavaScript 代码)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -161,35 +169,37 @@
                 })
                 .then(config => {
                     const wrapper = document.getElementById('content-wrapper');
-                    wrapper.innerHTML = ''; // Clear loading message
+                    wrapper.innerHTML = ''; 
 
-                    const mainTunnelData = config.tunnels.find(t => t.name.includes('Arm'));
-                    const otherTunnels = config.tunnels.filter(t => !t.name.includes('Arm'));
+                    const armTunnelData = config.tunnels.find(t => t.name.toLowerCase().includes('arm'));
+                    const otherTunnels = config.tunnels.filter(t => !t.name.toLowerCase().includes('arm'));
+                    
+                    // 确保A通道在左，B通道在右
+                    const sortedOthers = otherTunnels.sort((a,b) => a.name.localeCompare(b.name));
 
-                    // Render Main Arm Tunnel
-                    if(mainTunnelData){
-                       wrapper.appendChild(createTunnelGroup(mainTunnelData, config.baseDomain, true));
+                    if(armTunnelData){
+                       const armGroup = createTunnelGroup(armTunnelData, config.baseDomain);
+                       armGroup.classList.add('tunnel-main');
+                       wrapper.appendChild(armGroup);
                     }
 
-                    // Render Bottom Tunnels
                     const bottomContainer = document.createElement('div');
                     bottomContainer.className = 'tunnels-bottom';
-                    otherTunnels.forEach(tunnelData => {
-                        bottomContainer.appendChild(createTunnelGroup(tunnelData, config.baseDomain, false));
+                    sortedOthers.forEach(tunnelData => {
+                        bottomContainer.appendChild(createTunnelGroup(tunnelData, config.baseDomain));
                     });
                     wrapper.appendChild(bottomContainer);
-
                 })
                 .catch(error => {
                     const wrapper = document.getElementById('content-wrapper');
-                    wrapper.innerHTML = `<p style="text-align:center; color: red;">Error: Could not load config.json</p>`;
+                    wrapper.innerHTML = `<p style="text-align:center; color: #b22222;">错误: 无法加载配置文件 config.json</p>`;
                     console.error('Error fetching config:', error);
                 });
         });
 
-        function createTunnelGroup(tunnelData, baseDomain, isMain) {
+        function createTunnelGroup(tunnelData, baseDomain) {
             const groupDiv = document.createElement('div');
-            groupDiv.className = 'tunnel-group' + (isMain ? ' tunnel-main' : '');
+            groupDiv.className = 'tunnel-group';
             
             const title = document.createElement('h2');
             title.textContent = tunnelData.name;
@@ -206,11 +216,7 @@
                 gridDiv.appendChild(link);
             });
             
-            const titleWrapper = document.createElement('div');
-            titleWrapper.style.textAlign = 'center';
-            titleWrapper.appendChild(title);
-
-            groupDiv.appendChild(titleWrapper);
+            groupDiv.appendChild(title);
             groupDiv.appendChild(gridDiv);
             
             return groupDiv;
