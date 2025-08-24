@@ -8,6 +8,7 @@
         { "subdomain": "lc", "description": "LC" },
         { "subdomain": "ol", "description": "OL" },
         { "subdomain": "1p0", "description": "1P0" },
+        { "subdomain": "cd", "description": "CD" },
         { "subdomain": "xui", "description": "XUI" }
       ]
     },
