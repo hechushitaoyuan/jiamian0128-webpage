@@ -15,15 +15,15 @@
     {
       "name": "Oracle-A-tunnel",
       "services": [
-        { "subdomain": "xa", "description": "XA" },
-        { "subdomain": "1pa", "description": "1PA" }
+        { "subdomain": "1pa", "description": "1PA" },
+        { "subdomain": "xa", "description": "XA" }
       ]
     },
     {
       "name": "Oracle-B-tunnel",
       "services": [
-        { "subdomain": "xb", "description": "XB" },
-        { "subdomain": "1pb", "description": "1PB" }
+        { "subdomain": "1pb", "description": "1PB" },
+        { "subdomain": "xb", "description": "XB" }
       ]
     }
   ]
