@@ -9,7 +9,6 @@
 
         body {
             font-family: 'Noto Serif SC', serif;
-            /* 严格按照您提供的背景图片 */
             background-image: url('https://bpic.588ku.com/video_listen/588ku_pic/23/03/24/641dbd1698549.jpeg');
             background-color: #f5f5f5;
             background-size: cover;
@@ -23,7 +22,6 @@
             min-height: 100vh;
         }
 
-        /* 移除了主容器的背景和边框，让所有元素直接浮于背景之上 */
         .page-wrapper {
             width: 100%;
             max-width: 1100px;
@@ -37,7 +35,6 @@
             padding: 1.5rem;
             position: relative;
             margin-bottom: 2.5rem;
-            /* 用一个非常淡的底部线条来营造空间感，而非色块 */
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
         }
 
@@ -46,7 +43,7 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            height: 55px; /* 尺寸微调以适应布局 */
+            height: 55px;
             width: 55px;
             opacity: 0.9;
         }
@@ -56,24 +53,28 @@
             font-weight: 700;
             font-size: 2.5em;
             margin: 0;
-            /* 关键：使用文字阴影保证在复杂背景下的可读性 */
             text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.6), 0px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
         .content-wrapper {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr;
             gap: 3rem;
         }
         
-        .tunnels-bottom {
+        .top-section {
+            display: flex;
+            justify-content: center;
+        }
+
+        .bottom-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
+            align-items: start;
         }
         
         .tunnel-group {
-             /* 组不再有背景板，只有布局结构 */
             padding: 1rem;
         }
 
@@ -87,7 +88,6 @@
             display: inline-block;
             padding: 0 1rem;
         }
-        /* 用伪元素在标题两侧画出装饰性线条，更具古典感 */
         .tunnel-group h2::before,
         .tunnel-group h2::after {
             content: '';
@@ -107,10 +107,15 @@
             gap: 1.5rem;
         }
 
+        .services-grid-row2 {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
         .service-button {
             display: block;
             padding: 0.9rem 1.8rem;
-            /* 按钮使用半透明背景，融入整体画面 */
             background: rgba(45, 45, 45, 0.65);
             backdrop-filter: blur(5px);
             color: #f5f5f5;
@@ -132,9 +137,9 @@
 
         @media (max-width: 768px) {
             body { padding: 1.5rem; }
-            .tunnels-bottom { grid-template-columns: 1fr; }
+            .bottom-section { grid-template-columns: 1fr; }
             h1 { font-size: 1.8em; }
-            .logo { display: none; } /* 在手机上隐藏logo，为标题腾出空间 */
+            .logo { display: none; }
         }
     </style>
 </head>
@@ -142,7 +147,6 @@
 
     <div class="page-wrapper">
         <header>
-            <!-- 用github头像做logo -->
             <img src="https://avatars.githubusercontent.com/u/109302248?s=400&u=12243b1331dcedf73ae97bd00b5f233920218c7b&v=4" alt="Logo" class="logo">
             <h1>Jiamian0128's Personal Webpage</h1>
         </header>
@@ -152,12 +156,6 @@
         </main>
     </div>
 
-    <!-- 
-      JavaScript 逻辑部分:
-      再次确认：这里的 fetch('./config.json') 正是您要求的，
-      从您GitHub仓库中的 config.json 文件读取数据来动态生成页面。
-      它绝对不会去读取Cloudflare API或暴露您未在json中指定的任何子域名。
-    -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./config.json')
@@ -169,21 +167,24 @@
                     const wrapper = document.getElementById('content-wrapper');
                     wrapper.innerHTML = ''; 
 
-                    const armTunnelData = config.tunnels.find(t => t.name.toLowerCase().includes('arm'));
-                    const otherTunnels = config.tunnels.filter(t => !t.name.toLowerCase().includes('arm'));
-                    const sortedOthers = otherTunnels.sort((a,b) => a.name.localeCompare(b.name));
+                    const oracleData = config.tunnels.find(t => t.name === 'ORACLE');
+                    const nasData = config.tunnels.find(t => t.name === 'NAS');
+                    const clwpData = config.tunnels.find(t => t.name === 'CLWP');
 
-                    if(armTunnelData){
-                       const armGroup = createTunnelGroup(armTunnelData, config.baseDomain);
-                       wrapper.appendChild(armGroup);
+                    if (oracleData) {
+                        const topSection = document.createElement('div');
+                        topSection.className = 'top-section';
+                        topSection.appendChild(createTunnelGroup(oracleData, config.baseDomain));
+                        wrapper.appendChild(topSection);
                     }
 
-                    const bottomContainer = document.createElement('div');
-                    bottomContainer.className = 'tunnels-bottom';
-                    sortedOthers.forEach(tunnelData => {
-                        bottomContainer.appendChild(createTunnelGroup(tunnelData, config.baseDomain));
-                    });
-                    wrapper.appendChild(bottomContainer);
+                    const bottomSection = document.createElement('div');
+                    bottomSection.className = 'bottom-section';
+                    
+                    bottomSection.appendChild(nasData ? createTunnelGroup(nasData, config.baseDomain) : document.createElement('div'));
+                    bottomSection.appendChild(clwpData ? createTunnelGroup(clwpData, config.baseDomain) : document.createElement('div'));
+                    
+                    wrapper.appendChild(bottomSection);
                 })
                 .catch(error => {
                     const wrapper = document.getElementById('content-wrapper');
@@ -192,27 +193,56 @@
                 });
         });
 
+        function createServiceButton(service, baseDomain) {
+            const link = document.createElement('a');
+            link.href = `https://${service.subdomain}.${baseDomain}`;
+            link.textContent = service.description || service.subdomain.toUpperCase();
+            link.className = 'service-button';
+            link.target = '_blank';
+            return link;
+        }
+
         function createTunnelGroup(tunnelData, baseDomain) {
             const groupDiv = document.createElement('div');
             groupDiv.className = 'tunnel-group';
             
+            const titleContainer = document.createElement('div');
             const title = document.createElement('h2');
             title.textContent = tunnelData.name;
-            
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'services-grid';
+            titleContainer.appendChild(title);
+            groupDiv.appendChild(titleContainer);
 
-            tunnelData.services.forEach(service => {
-                const link = document.createElement('a');
-                link.href = `https://${service.subdomain}.${baseDomain}`;
-                link.textContent = service.description || service.subdomain.toUpperCase();
-                link.className = 'service-button';
-                link.target = '_blank';
-                gridDiv.appendChild(link);
-            });
-            
-            groupDiv.appendChild(title);
-            groupDiv.appendChild(gridDiv);
+            if (tunnelData.name === 'ORACLE') {
+                const oracleContainer = document.createElement('div');
+                oracleContainer.style.display = 'inline-block';
+
+                if (tunnelData.services_row1) {
+                    const gridDiv1 = document.createElement('div');
+                    gridDiv1.className = 'services-grid';
+                    tunnelData.services_row1.forEach(service => {
+                        gridDiv1.appendChild(createServiceButton(service, baseDomain));
+                    });
+                    oracleContainer.appendChild(gridDiv1);
+                }
+                if (tunnelData.services_row2) {
+                    const gridDiv2 = document.createElement('div');
+                    gridDiv2.className = 'services-grid-row2';
+                    tunnelData.services_row2.forEach(service => {
+                        gridDiv2.appendChild(createServiceButton(service, baseDomain));
+                    });
+                    oracleContainer.appendChild(gridDiv2);
+                }
+                groupDiv.appendChild(oracleContainer);
+            } else {
+                if (tunnelData.services) {
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'services-grid';
+                    tunnelData.services.forEach(service => {
+                        gridDiv.appendChild(createServiceButton(service, baseDomain));
+                    });
+                    groupDiv.appendChild(gridDiv);
+                }
+            }
             
             return groupDiv;
         }
