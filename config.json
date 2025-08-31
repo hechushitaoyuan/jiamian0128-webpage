@@ -25,7 +25,8 @@
     {
       "name": "CLWP",
       "services": [
-        { "subdomain": "libretv", "description": "LIBRETV" }
+        { "subdomain": "libretv", "description": "LIBRETV" },
+        { "subdomain": "image", "description": "IMAGE" }
       ]
     }
   ]
