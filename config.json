@@ -5,21 +5,21 @@
       "name": "ORACLE",
       "services_row1": [
         { "subdomain": "gb", "description": "GB" },
-        { "subdomain": "ol", "description": "OL" },
-        { "subdomain": "1p0", "description": "1P0" },
+        { "subdomain": "op", "description": "OP" },
+        { "subdomain": "arm", "description": "ARM" },
         { "subdomain": "lc", "description": "LC" },
         { "subdomain": "cd", "description": "CD" }
       ],
       "services_row2": [
-        { "subdomain": "1pa", "description": "1PA" },
-        { "subdomain": "1pb", "description": "1PB" }
+        { "subdomain": "ora", "description": "ORA" },
+        { "subdomain": "orab", "description": "ORB" }
       ]
     },
     {
       "name": "NAS",
       "services": [
         { "subdomain": "nas", "description": "NAS" },
-        { "subdomain": "opl", "description": "OPL" }
+        { "subdomain": "ol", "description": "OL" }
       ]
     },
     {
