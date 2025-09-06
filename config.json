@@ -13,14 +13,14 @@
       ],
       "services_row2": [
         { "subdomain": "ora", "description": "ORA" },
-        { "subdomain": "orab", "description": "ORB" }
+        { "subdomain": "orb", "description": "ORB" }
       ]
     },
     {
       "name": "NAS",
       "services": [
         { "subdomain": "nas", "description": "NAS" },
-        { "subdomain": "ol", "description": "OL" }
+        { "subdomain": "pl", "description": "PL" }
       ]
     },
     {
