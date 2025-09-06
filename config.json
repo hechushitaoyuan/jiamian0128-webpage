@@ -1,14 +1,15 @@
 {
-  "baseDomain": "jiamian.ip-ddns.com",
+  "baseDomains": [
+    "jiamian.ip-ddns.com",
+    "jiamian.ddns-ip.net"
+  ],
   "tunnels": [
     {
       "name": "ORACLE",
       "services_row1": [
         { "subdomain": "gb", "description": "GB" },
         { "subdomain": "op", "description": "OP" },
-        { "subdomain": "arm", "description": "ARM" },
-        { "subdomain": "lc", "description": "LC" },
-        { "subdomain": "cd", "description": "CD" }
+        { "subdomain": "arm", "description": "ARM" }
       ],
       "services_row2": [
         { "subdomain": "ora", "description": "ORA" },
