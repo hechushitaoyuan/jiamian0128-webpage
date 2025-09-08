@@ -4,13 +4,13 @@
     "net": "jiamian.ddns-ip.net"
   },
   "services": [
-    "gb",
     "arm",
     "ora",
-    "nas",
-    "pl",
-    "op",
     "orb",
+    "nas",
+    "gb",
+    "ol",
+    "op",
     "libretv",
     "image"
   ]
