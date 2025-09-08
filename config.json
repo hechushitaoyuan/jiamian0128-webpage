@@ -9,7 +9,7 @@
       "services_row1": [
         { "subdomain": "gb", "description": "GB" },
         { "subdomain": "arm", "description": "ARM" },
-        { "subdomain": "op", "description": "OP" }
+        { "subdomain": "ol", "description": "OL" }
       ],
       "services_row2": [
         { "subdomain": "ora", "description": "ORA" },
