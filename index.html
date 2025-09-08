@@ -58,27 +58,17 @@
 
         .content-wrapper {
             display: grid;
-            grid-template-rows: auto 1fr;
-            gap: 3rem;
-        }
-        
-        .top-section {
-            display: flex;
-            justify-content: center;
-        }
-
-        .bottom-section {
-            display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
-            align-items: start;
         }
         
-        .tunnel-group {
-            padding: 1rem;
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
-        .tunnel-group h2 {
+        .column-title {
             margin: 0 auto 2.2rem auto;
             color: #404040;
             font-size: 1.8em;
@@ -88,8 +78,8 @@
             display: inline-block;
             padding: 0 1rem;
         }
-        .tunnel-group h2::before,
-        .tunnel-group h2::after {
+        .column-title::before,
+        .column-title::after {
             content: '';
             position: absolute;
             top: 50%;
@@ -97,20 +87,14 @@
             height: 1px;
             background-color: rgba(64, 64, 64, 0.5);
         }
-        .tunnel-group h2::before { left: -60px; }
-        .tunnel-group h2::after { right: -60px; }
+        .column-title::before { left: -60px; }
+        .column-title::after { right: -60px; }
         
         .services-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 1.5rem;
-        }
-
-        .services-grid-row2 {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1.5rem;
         }
 
         .service-button {
@@ -137,7 +121,7 @@
 
         @media (max-width: 768px) {
             body { padding: 1.5rem; }
-            .bottom-section { grid-template-columns: 1fr; }
+            .content-wrapper { grid-template-columns: 1fr; }
             h1 { font-size: 1.8em; }
             .logo { display: none; }
         }
@@ -157,32 +141,6 @@
     </div>
 
     <script>
-        // 检测当前访问的域名类型
-        function getCurrentDomainType() {
-            const hostname = window.location.hostname;
-            
-            if (hostname === 'jiamian0128.pages.dev') {
-                return 'random'; // 随机选择域名
-            } else if (hostname === 'www.jiamian.ip-ddns.com') {
-                return 'jiamian.ip-ddns.com'; // 固定使用第一个域名
-            } else if (hostname === 'www.jiamian.ddns-ip.net') {
-                return 'jiamian.ddns-ip.net'; // 固定使用第二个域名
-            }
-            
-            return 'random'; // 默认随机
-        }
-
-        // 根据域名类型选择基础域名
-        function selectBaseDomain(baseDomains, domainType) {
-            if (domainType === 'random') {
-                // 随机选择一个域名
-                return baseDomains[Math.floor(Math.random() * baseDomains.length)];
-            } else {
-                // 返回指定的域名
-                return domainType;
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             fetch('./config.json')
                 .then(response => {
@@ -193,27 +151,13 @@
                     const wrapper = document.getElementById('content-wrapper');
                     wrapper.innerHTML = ''; 
 
-                    // 获取当前域名类型
-                    const domainType = getCurrentDomainType();
-                    
-                    const oracleData = config.tunnels.find(t => t.name === 'ORACLE');
-                    const nasData = config.tunnels.find(t => t.name === 'NAS');
-                    const clwpData = config.tunnels.find(t => t.name === 'CLWP');
+                    // Create COM column
+                    const comColumn = createColumn('COM', config.services, config.domains.com);
+                    wrapper.appendChild(comColumn);
 
-                    if (oracleData) {
-                        const topSection = document.createElement('div');
-                        topSection.className = 'top-section';
-                        topSection.appendChild(createTunnelGroup(oracleData, config.baseDomains, domainType));
-                        wrapper.appendChild(topSection);
-                    }
-
-                    const bottomSection = document.createElement('div');
-                    bottomSection.className = 'bottom-section';
-                    
-                    bottomSection.appendChild(nasData ? createTunnelGroup(nasData, config.baseDomains, domainType) : document.createElement('div'));
-                    bottomSection.appendChild(clwpData ? createTunnelGroup(clwpData, config.baseDomains, domainType) : document.createElement('div'));
-                    
-                    wrapper.appendChild(bottomSection);
+                    // Create NET column
+                    const netColumn = createColumn('NET', config.services, config.domains.net);
+                    wrapper.appendChild(netColumn);
                 })
                 .catch(error => {
                     const wrapper = document.getElementById('content-wrapper');
@@ -222,59 +166,29 @@
                 });
         });
 
-        function createServiceButton(service, baseDomains, domainType) {
-            const link = document.createElement('a');
-            const selectedDomain = selectBaseDomain(baseDomains, domainType);
-            link.href = `https://${service.subdomain}.${selectedDomain}`;
-            link.textContent = service.description || service.subdomain.toUpperCase();
-            link.className = 'service-button';
-            link.target = '_blank';
-            return link;
-        }
+        function createColumn(titleText, services, baseDomain) {
+            const columnDiv = document.createElement('div');
+            columnDiv.className = 'column';
 
-        function createTunnelGroup(tunnelData, baseDomains, domainType) {
-            const groupDiv = document.createElement('div');
-            groupDiv.className = 'tunnel-group';
-            
-            const titleContainer = document.createElement('div');
             const title = document.createElement('h2');
-            title.textContent = tunnelData.name;
-            titleContainer.appendChild(title);
-            groupDiv.appendChild(titleContainer);
+            title.className = 'column-title';
+            title.textContent = titleText;
+            columnDiv.appendChild(title);
 
-            if (tunnelData.name === 'ORACLE') {
-                const oracleContainer = document.createElement('div');
-                oracleContainer.style.display = 'inline-block';
-
-                if (tunnelData.services_row1) {
-                    const gridDiv1 = document.createElement('div');
-                    gridDiv1.className = 'services-grid';
-                    tunnelData.services_row1.forEach(service => {
-                        gridDiv1.appendChild(createServiceButton(service, baseDomains, domainType));
-                    });
-                    oracleContainer.appendChild(gridDiv1);
-                }
-                if (tunnelData.services_row2) {
-                    const gridDiv2 = document.createElement('div');
-                    gridDiv2.className = 'services-grid-row2';
-                    tunnelData.services_row2.forEach(service => {
-                        gridDiv2.appendChild(createServiceButton(service, baseDomains, domainType));
-                    });
-                    oracleContainer.appendChild(gridDiv2);
-                }
-                groupDiv.appendChild(oracleContainer);
-            } else {
-                if (tunnelData.services) {
-                    const gridDiv = document.createElement('div');
-                    gridDiv.className = 'services-grid';
-                    tunnelData.services.forEach(service => {
-                        gridDiv.appendChild(createServiceButton(service, baseDomains, domainType));
-                    });
-                    groupDiv.appendChild(gridDiv);
-                }
-            }
+            const gridDiv = document.createElement('div');
+            gridDiv.className = 'services-grid';
             
-            return groupDiv;
+            services.forEach(subdomain => {
+                const link = document.createElement('a');
+                link.href = `https://${subdomain}.${baseDomain}`;
+                link.textContent = subdomain.toUpperCase();
+                link.className = 'service-button';
+                link.target = '_blank';
+                gridDiv.appendChild(link);
+            });
+
+            columnDiv.appendChild(gridDiv);
+            return columnDiv;
         }
     </script>
 </body>
