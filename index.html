@@ -57,38 +57,11 @@
         }
 
         .content-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-        
-        .column {
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 1.5rem;
         }
-
-        .column-title {
-            margin: 0 auto 2.2rem auto;
-            color: #404040;
-            font-size: 1.8em;
-            font-weight: 700;
-            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.5), 0px 2px 4px rgba(0, 0, 0, 0.2);
-            position: relative;
-            display: inline-block;
-            padding: 0 1rem;
-        }
-        .column-title::before,
-        .column-title::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 50px;
-            height: 1px;
-            background-color: rgba(64, 64, 64, 0.5);
-        }
-        .column-title::before { left: -60px; }
-        .column-title::after { right: -60px; }
         
         .services-grid {
             display: flex;
@@ -121,7 +94,6 @@
 
         @media (max-width: 768px) {
             body { padding: 1.5rem; }
-            .content-wrapper { grid-template-columns: 1fr; }
             h1 { font-size: 1.8em; }
             .logo { display: none; }
         }
@@ -149,15 +121,33 @@
                 })
                 .then(config => {
                     const wrapper = document.getElementById('content-wrapper');
-                    wrapper.innerHTML = ''; 
+                    wrapper.innerHTML = '';
 
-                    // Create COM column
-                    const comColumn = createColumn('COM', config.services, config.domains.com);
-                    wrapper.appendChild(comColumn);
+                    const { domains, services } = config;
+                    const currentHostname = window.location.hostname;
+                    let baseDomain = domains.primary; // Default to primary domain
 
-                    // Create NET column
-                    const netColumn = createColumn('NET', config.services, config.domains.net);
-                    wrapper.appendChild(netColumn);
+                    const allPrimaryDomains = [domains.primary, ...domains.aliases];
+
+                    if (allPrimaryDomains.includes(currentHostname)) {
+                        baseDomain = domains.primary;
+                    } else if (domains.backups.includes(currentHostname)) {
+                        baseDomain = currentHostname;
+                    }
+                    
+                    const gridDiv = document.createElement('div');
+                    gridDiv.className = 'services-grid';
+
+                    services.forEach(subdomain => {
+                        const link = document.createElement('a');
+                        link.href = `https://${subdomain}.${baseDomain}`;
+                        link.textContent = subdomain.toUpperCase();
+                        link.className = 'service-button';
+                        link.target = '_blank';
+                        gridDiv.appendChild(link);
+                    });
+
+                    wrapper.appendChild(gridDiv);
                 })
                 .catch(error => {
                     const wrapper = document.getElementById('content-wrapper');
@@ -165,31 +155,6 @@
                     console.error('Error fetching config:', error);
                 });
         });
-
-        function createColumn(titleText, services, baseDomain) {
-            const columnDiv = document.createElement('div');
-            columnDiv.className = 'column';
-
-            const title = document.createElement('h2');
-            title.className = 'column-title';
-            title.textContent = titleText;
-            columnDiv.appendChild(title);
-
-            const gridDiv = document.createElement('div');
-            gridDiv.className = 'services-grid';
-            
-            services.forEach(subdomain => {
-                const link = document.createElement('a');
-                link.href = `https://${subdomain}.${baseDomain}`;
-                link.textContent = subdomain.toUpperCase();
-                link.className = 'service-button';
-                link.target = '_blank';
-                gridDiv.appendChild(link);
-            });
-
-            columnDiv.appendChild(gridDiv);
-            return columnDiv;
-        }
     </script>
 </body>
 </html>
