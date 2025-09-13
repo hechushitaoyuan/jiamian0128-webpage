@@ -1,7 +1,13 @@
 {
   "domains": {
-    "com": "jiamian.ip-ddns.com",
-    "net": "jiamian.ddns-ip.net"
+    "primary": "jiamianai.com",
+    "aliases": [
+      "jiamian0128.pages.dev"
+    ],
+    "backups": [
+      "jiamian.ip-ddns.com",
+      "jiamian.ddns-ip.net"
+    ]
   },
   "services": [
     "arm",
