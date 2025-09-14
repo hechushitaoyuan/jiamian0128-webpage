@@ -35,31 +35,27 @@
             padding: 0;
         }
 
-        /* 内框定位线 - 与背景图片内框重合 */
-        .inner-frame {
+        /* Header容器 - 在背景图片装饰边框外面 */
+        .header-container {
             position: absolute;
-            top: 8%;
-            left: 12%;
-            right: 8%;
-            bottom: 15%;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            pointer-events: none;
-            z-index: 1;
+            top: 2%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
         }
 
-        /* 功能区容器 - 偏右布局适应竹子设计 */
-        .content-container {
+        /* 按钮容器 - 在背景图片内容区域内，偏右避开竹子 */
+        .buttons-container {
             position: absolute;
-            top: 8%;
+            top: 15%;
             left: 35%;
-            right: 8%;
-            bottom: 15%;
+            right: 12%;
+            bottom: 20%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             z-index: 2;
-            padding-top: 2rem;
         }
 
         header {
@@ -126,19 +122,15 @@
         }
 
         @media (max-width: 768px) {
-            .inner-frame {
-                top: 5%;
-                left: 8%;
-                right: 5%;
-                bottom: 10%;
+            .header-container {
+                top: 1%;
             }
             
-            .content-container {
-                top: 5%;
-                left: 15%;
-                right: 5%;
-                bottom: 10%;
-                padding-top: 1rem;
+            .buttons-container {
+                top: 12%;
+                left: 20%;
+                right: 8%;
+                bottom: 15%;
             }
             
             h1 { 
@@ -149,10 +141,6 @@
                 height: 45px;
                 width: 45px;
                 margin-right: 0.8rem;
-            }
-            
-            header {
-                margin-bottom: 2rem;
             }
             
             .services-grid {
@@ -168,19 +156,15 @@
         }
 
         @media (max-width: 480px) {
-            .inner-frame {
-                top: 3%;
-                left: 5%;
-                right: 3%;
-                bottom: 8%;
+            .header-container {
+                top: 0.5%;
             }
             
-            .content-container {
-                top: 3%;
-                left: 8%;
-                right: 3%;
-                bottom: 8%;
-                padding-top: 0.5rem;
+            .buttons-container {
+                top: 10%;
+                left: 10%;
+                right: 5%;
+                bottom: 12%;
             }
             
             h1 { 
@@ -206,16 +190,16 @@
 </head>
 <body>
     <div class="page-wrapper">
-        <!-- 内框定位线 - 与背景图片内框重合 -->
-        <div class="inner-frame"></div>
-        
-        <!-- 功能区容器 - 偏右布局适应竹子设计 -->
-        <div class="content-container">
+        <!-- Header在背景图片装饰边框外面 -->
+        <div class="header-container">
             <header>
                 <img src="https://avatars.githubusercontent.com/u/109302248?s=400&u=12243b1331dcedf73ae97bd00b5f233920218c7b&v=4" alt="Logo" class="logo">
                 <h1>Jiamian Webpage</h1>
             </header>
-
+        </div>
+        
+        <!-- 按钮在背景图片内容区域内 -->
+        <div class="buttons-container">
             <main class="content-wrapper" id="content-wrapper">
                  <p style="text-align:center; color: #333; text-shadow: 1px 1px 2px #fff;">正在加载服务节点...</p>
             </main>
@@ -229,43 +213,34 @@
             const windowHeight = window.innerHeight;
             const aspectRatio = windowWidth / windowHeight;
             
-            const innerFrame = document.querySelector('.inner-frame');
-            const contentContainer = document.querySelector('.content-container');
+            const headerContainer = document.querySelector('.header-container');
+            const buttonsContainer = document.querySelector('.buttons-container');
             
-            // 根据屏幕比例调整内框位置
+            // 根据屏幕比例调整布局位置
             if (aspectRatio > 1.5) {
-                // 宽屏显示
-                innerFrame.style.top = '8%';
-                innerFrame.style.left = '12%';
-                innerFrame.style.right = '8%';
-                innerFrame.style.bottom = '15%';
+                // 宽屏显示 - header在装饰边框外，按钮在内容区偏右
+                headerContainer.style.top = '2%';
                 
-                contentContainer.style.top = '8%';
-                contentContainer.style.left = '35%';
-                contentContainer.style.right = '8%';
-                contentContainer.style.bottom = '15%';
+                buttonsContainer.style.top = '15%';
+                buttonsContainer.style.left = '35%';
+                buttonsContainer.style.right = '12%';
+                buttonsContainer.style.bottom = '20%';
             } else if (aspectRatio > 1.2) {
                 // 标准宽屏
-                innerFrame.style.top = '6%';
-                innerFrame.style.left = '10%';
-                innerFrame.style.right = '6%';
-                innerFrame.style.bottom = '12%';
+                headerContainer.style.top = '1.5%';
                 
-                contentContainer.style.top = '6%';
-                contentContainer.style.left = '30%';
-                contentContainer.style.right = '6%';
-                contentContainer.style.bottom = '12%';
+                buttonsContainer.style.top = '12%';
+                buttonsContainer.style.left = '30%';
+                buttonsContainer.style.right = '10%';
+                buttonsContainer.style.bottom = '18%';
             } else {
                 // 竖屏或接近方形
-                innerFrame.style.top = '5%';
-                innerFrame.style.left = '8%';
-                innerFrame.style.right = '5%';
-                innerFrame.style.bottom = '10%';
+                headerContainer.style.top = '1%';
                 
-                contentContainer.style.top = '5%';
-                contentContainer.style.left = '15%';
-                contentContainer.style.right = '5%';
-                contentContainer.style.bottom = '10%';
+                buttonsContainer.style.top = '10%';
+                buttonsContainer.style.left = '15%';
+                buttonsContainer.style.right = '8%';
+                buttonsContainer.style.bottom = '15%';
             }
         }
 
