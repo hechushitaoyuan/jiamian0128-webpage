@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jiamian0128's Personal Webpage</title>
+    <title>Jiamian Webpage</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap');
 
         body {
             font-family: 'Noto Serif SC', serif;
-            background-image: url('https://telegraph-image-b15.pages.dev/file/AgACAgUAAyEGAASqbjn8AAMEaLRVVPCEqP9HKghL0l5PhUzPcl0AAhXGMRvkK6BV89lnx3IagOMBAAMCAAN3AAM2BA.jpg');
+            background-image: url('https://image.jiamianai.com/file/AgACAgUAAyEGAASqbjn8AAMIaMT2XpbIKeTIPWb10XNyYpY1D2kAAk_hMRua6ClWF3x0s9DGSsABAAMCAAN3AAM2BA.jpeg');
             background-color: #f5f5f5;
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             margin: 0;
-            padding: 3rem;
+            padding: 2rem;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .page-wrapper {
@@ -64,10 +65,11 @@
         }
         
         .services-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .service-button {
@@ -93,9 +95,44 @@
         }
 
         @media (max-width: 768px) {
-            body { padding: 1.5rem; }
-            h1 { font-size: 1.8em; }
-            .logo { display: none; }
+            body { 
+                padding: 1rem; 
+                height: 100vh;
+                overflow: hidden;
+            }
+            h1 { 
+                font-size: 1.6em; 
+                margin-left: 60px;
+            }
+            .logo { 
+                height: 45px;
+                width: 45px;
+                display: block;
+            }
+            header {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                max-width: 100%;
+            }
+            .service-button {
+                padding: 0.8rem 1.2rem;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.8rem;
+            }
+            .service-button {
+                padding: 0.7rem 1rem;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -104,7 +141,7 @@
     <div class="page-wrapper">
         <header>
             <img src="https://avatars.githubusercontent.com/u/109302248?s=400&u=12243b1331dcedf73ae97bd00b5f233920218c7b&v=4" alt="Logo" class="logo">
-            <h1>Jiamian0128's Personal Webpage</h1>
+            <h1>Jiamian Webpage</h1>
         </header>
 
         <main class="content-wrapper" id="content-wrapper">
@@ -138,6 +175,22 @@
                     const gridDiv = document.createElement('div');
                     gridDiv.className = 'services-grid';
 
+                    // 动态调整网格布局以获得更好的对称性
+                    const serviceCount = services.length;
+                    let columns = 2; // 默认2列
+                    
+                    if (serviceCount <= 4) {
+                        columns = 2;
+                    } else if (serviceCount <= 9) {
+                        columns = 3;
+                    } else if (serviceCount <= 12) {
+                        columns = 4;
+                    } else {
+                        columns = Math.ceil(Math.sqrt(serviceCount));
+                    }
+                    
+                    gridDiv.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+                    
                     services.forEach(subdomain => {
                         const link = document.createElement('a');
                         link.href = `https://${subdomain}.${baseDomain}`;
